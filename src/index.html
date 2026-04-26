@@ -4,31 +4,49 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>To-Do List & Task Manager</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="page-glow glow-one"></div>
-  <div class="page-glow glow-two"></div>
+  <div class="bg-shape shape-one"></div>
+  <div class="bg-shape shape-two"></div>
+  <div class="bg-shape shape-three"></div>
 
-  <main class="container">
-    <section class="app-card">
-      <p class="eyebrow">Day 2 Prototype</p>
-      <h1>To-Do List & Task Manager</h1>
-      <p class="subtitle">
-        Organize your day, complete tasks, and manage your priorities with a clean and modern interface.
-      </p>
+  <main class="page">
+    <section class="dashboard-card">
+      <div class="top-section">
+        <div>
+          <p class="eyebrow">Day 2 Prototype</p>
+          <h1>To-Do List & Task Manager</h1>
+          <p class="subtitle">
+            A modern productivity dashboard to add, complete, and manage daily tasks with a clean polished interface.
+          </p>
+        </div>
 
-      <div class="task-input">
-        <input
-          type="text"
-          id="taskInput"
-          placeholder="Enter a new task..."
-          aria-label="Task input"
-        />
-        <button id="addTaskBtn">Add Task</button>
+        <div class="mini-panel">
+          <span class="mini-label">Focus Mode</span>
+          <strong>Active Tasks</strong>
+        </div>
       </div>
 
-      <p id="helperText" class="helper-text">Add a task and manage it using Complete or Delete.</p>
+      <div class="input-card">
+        <div class="task-input">
+          <input
+            type="text"
+            id="taskInput"
+            placeholder="Enter your next task..."
+            aria-label="Task input"
+          />
+          <button id="addTaskBtn">Add Task</button>
+        </div>
+        <p id="helperText" class="helper-text">
+          Add a task and manage it using Complete or Delete.
+        </p>
+      </div>
 
       <ul id="taskList" class="task-list"></ul>
     </section>

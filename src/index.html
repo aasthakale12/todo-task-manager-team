@@ -7,15 +7,29 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <h1>To-Do List & Task Manager</h1>
+  <div class="app">
+    <header class="app-header">
+      <h1>To-Do List & Task Manager</h1>
+      <p class="subtitle">Day 1 starter prototype</p>
+    </header>
 
-    <div class="task-input">
-      <input type="text" id="taskInput" placeholder="Enter a new task" />
-      <button id="addTaskBtn">Add Task</button>
-    </div>
+    <main class="card">
+      <div class="task-form">
+        <input
+          type="text"
+          id="taskInput"
+          placeholder="Enter a new task"
+          aria-label="Task input"
+        />
+        <button id="addTaskBtn">Add Task</button>
+      </div>
 
-    <ul id="taskList"></ul>
+      <div class="task-section">
+        <h2>Your Tasks</h2>
+        <p id="emptyMessage" class="empty-message">No tasks added yet.</p>
+        <ul id="taskList" class="task-list"></ul>
+      </div>
+    </main>
   </div>
 
   <script src="app.js"></script>

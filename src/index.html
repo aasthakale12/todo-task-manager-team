@@ -7,30 +7,32 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="app">
-    <header class="app-header">
-      <h1>To-Do List & Task Manager</h1>
-      <p class="subtitle">Day 1 starter prototype</p>
-    </header>
+  <div class="page-glow glow-one"></div>
+  <div class="page-glow glow-two"></div>
 
-    <main class="card">
-      <div class="task-form">
+  <main class="container">
+    <section class="app-card">
+      <p class="eyebrow">Day 2 Prototype</p>
+      <h1>To-Do List & Task Manager</h1>
+      <p class="subtitle">
+        Organize your day, complete tasks, and manage your priorities with a clean and modern interface.
+      </p>
+
+      <div class="task-input">
         <input
           type="text"
           id="taskInput"
-          placeholder="Enter a new task"
+          placeholder="Enter a new task..."
           aria-label="Task input"
         />
         <button id="addTaskBtn">Add Task</button>
       </div>
 
-      <div class="task-section">
-        <h2>Your Tasks</h2>
-        <p id="emptyMessage" class="empty-message">No tasks added yet.</p>
-        <ul id="taskList" class="task-list"></ul>
-      </div>
-    </main>
-  </div>
+      <p id="helperText" class="helper-text">Add a task and manage it using Complete or Delete.</p>
+
+      <ul id="taskList" class="task-list"></ul>
+    </section>
+  </main>
 
   <script src="app.js"></script>
 </body>

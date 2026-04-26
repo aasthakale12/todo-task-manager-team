@@ -1,58 +1,113 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f6f8;
   margin: 0;
-  padding: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f7fb;
+  color: #222;
 }
 
-.container {
-  width: 90%;
-  max-width: 500px;
-  margin: 50px auto;
-  background: white;
+.app {
+  max-width: 700px;
+  margin: 60px auto;
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
+.app-header {
   text-align: center;
-  color: #333;
+  margin-bottom: 24px;
 }
 
-.task-input {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
+.app-header h1 {
+  margin: 0 0 8px;
+  font-size: 32px;
+  color: #1f3c88;
 }
 
-input {
-  flex: 1;
-  padding: 10px;
+.subtitle {
+  margin: 0;
+  color: #666;
   font-size: 16px;
 }
 
-button {
-  padding: 10px 16px;
-  background-color: #0077cc;
-  color: white;
+.card {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.task-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.task-form input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #cfd8e3;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.task-form button {
+  padding: 12px 18px;
   border: none;
+  border-radius: 8px;
+  background: #1f3c88;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.task-form button:hover {
+  background: #162c63;
+}
+
+.task-section h2 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 22px;
+}
+
+.empty-message {
+  color: #777;
+  margin-bottom: 12px;
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.task-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  background: #eef3ff;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+
+.task-text {
+  flex: 1;
+}
+
+.delete-btn {
+  border: none;
+  background: #d62828;
+  color: white;
+  padding: 8px 12px;
   border-radius: 6px;
   cursor: pointer;
 }
 
-button:hover {
-  background-color: #005fa3;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-}
-
-li {
-  background: #eef2f5;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 6px;
+.delete-btn:hover {
+  background: #a61c1c;
 }

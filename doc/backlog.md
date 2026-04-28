@@ -1,79 +1,64 @@
-# Product Backlog
+# Version 2 Backlog
 
-## Project Summary
-Smart Task Manager is a web-based productivity application designed to help users create, organise, prioritise, and complete tasks efficiently. The project is being developed incrementally using Agile Scrum practices.
+## Epic
+Improve the usability and interface of the Smart Task Manager while keeping the core Version 1 functionality.
 
-## Refined Product Backlog
+## User Stories
 
-### US-01 Add Task
-As a user, I want to add a new task so that I can keep track of work I need to complete.
-
-**Priority:** High
-
-**Acceptance Criteria**
-- User can enter task text into an input field
-- User can click an Add button to save the task
-- New task appears in the task list after being added
-- Empty tasks should not be added
-- Task list updates immediately without refreshing the page
-
-### US-02 Delete Task
-As a user, I want to delete a task so that I can remove items that are no longer needed.
+### US-V2-01 Improve Task Layout
+As a user, I want a cleaner task layout so that I can read and manage tasks more easily.
 
 **Priority:** High
 
 **Acceptance Criteria**
-- Each task has a delete option
-- Clicking delete removes the selected task
-- Deleted task no longer appears in the task list
-- Only the selected task is removed
-- Task list updates immediately without refreshing the page
+- Task items are displayed in a cleaner structured format
+- Buttons are aligned properly
+- Task text is clearly visible
+- Layout looks more organised than Version 1
 
-### US-03 Mark Task Complete
-As a user, I want to mark a task as completed so that I can monitor my progress.
+### US-V2-02 Add Input Validation
+As a user, I want the system to prevent empty tasks so that invalid items are not added to my list.
 
 **Priority:** High
 
 **Acceptance Criteria**
-- Each task has a complete option
-- User can mark a pending task as completed
-- Completed task is visually different from pending tasks
-- Completed status remains visible in the task list
-- User can clearly identify which tasks are completed
+- Empty task input cannot be submitted
+- A warning or validation message is shown
+- Only valid tasks are added to the list
 
-### US-04 Edit Task
-As a user, I want to edit a task so that I can correct or update task information.
+### US-V2-03 Improve Completed Task Styling
+As a user, I want completed tasks to look visually different so that I can quickly identify finished work.
 
 **Priority:** Medium
 
 **Acceptance Criteria**
-- Each task has an edit option
-- User can update the task text
-- Updated text is saved successfully
-- Edited task displays the new text immediately
-- Empty edited values should not be saved
+- Completed tasks have a different style from active tasks
+- The style change is clearly visible
+- Users can still read the completed task text
 
-### US-05 Set Task Priority
-As a user, I want to assign a priority level to a task so that I can focus on the most important work first.
+### US-V2-04 Add Empty State Message
+As a user, I want to see a helpful message when no tasks exist so that I understand the current state of the app.
 
 **Priority:** Medium
 
 **Acceptance Criteria**
-- User can assign a priority to a task
-- Priority options include low, medium, and high
-- Selected priority is displayed on the task
-- Different priorities are visually distinguishable
-- Priority remains linked to the correct task
+- A message is displayed when the task list is empty
+- The message disappears when tasks are added
+- The message is easy to understand
+
+### US-V2-05 Make Interface Responsive
+As a user, I want the application to work well on different screen sizes so that I can use it on laptop and mobile devices.
+
+**Priority:** Medium
+
+**Acceptance Criteria**
+- The layout adjusts on smaller screens
+- Buttons and input fields remain usable
+- Content does not overflow or break on mobile view
 
 ## Ordered Backlog
-1. US-01 Add Task
-2. US-02 Delete Task
-3. US-03 Mark Task Complete
-4. US-04 Edit Task
-5. US-05 Set Task Priority
-
-## Day 2 Notes
-- All initial user stories were refined
-- Acceptance criteria were added
-- Backlog items are now clearer and more testable
-- Top-priority items are ready for sprint planning
+1. US-V2-01 Improve Task Layout
+2. US-V2-02 Add Input Validation
+3. US-V2-03 Improve Completed Task Styling
+4. US-V2-04 Add Empty State Message
+5. US-V2-05 Make Interface Responsive

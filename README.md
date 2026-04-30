@@ -35,8 +35,29 @@ This project follows Agile Scrum practices:
 ## Repository Purpose
 This repository stores the application source code, Agile documentation, user stories, backlog items, and version history for the Smart Task Manager project.
 
-## Day 1 Setup
-On Day 1, the initial project idea, user stories, backlog, and GitHub Project board were created to prepare for iterative development.
+### Version 1 – Initial Prototype
+Version 1 delivered the first working prototype of the Smart Task Manager. This version focused on the essential task management functionality required to create a basic but usable application.
+
+#### Features Added in Version 1
+- Add a task
+- Delete a task
+- Mark a task as completed
+
+#### Purpose of Version 1
+The purpose of Version 1 was to create a minimum working product that allowed users to manage simple tasks through a basic interface.
+
+### Version 2 – UI and Usability Improvements
+Version 2 improved the usability and visual quality of the Smart Task Manager while keeping the core Version 1 features. This version focused on making the interface more user-friendly, cleaner, and more responsive.
+
+#### Features Added in Version 2
+- Improved task layout
+- Better button and input styling
+- Input validation for empty tasks
+- Empty state message when no tasks are available
+- Responsive design improvements for different screen sizes
+
+#### Purpose of Version 2
+The purpose of Version 2 was to improve the user experience by refining the interface and reducing usability issues without changing the core task management logic.
 
 ## Future Scope
 Possible future improvements include:

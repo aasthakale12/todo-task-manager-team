@@ -7,7 +7,10 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
 
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -20,20 +23,20 @@
     <section class="dashboard-card">
       <div class="top-section">
         <div>
-          <p class="eyebrow">Day 3 Prototype</p>
+          <p class="eyebrow">Final Prototype</p>
           <h1>To-Do List & Task Manager</h1>
           <p class="subtitle">
-            Organize, search, edit, filter, and complete your daily tasks in one clean productivity dashboard.
+            Organize, search, edit, filter, schedule, and track your tasks in one smart productivity dashboard.
           </p>
         </div>
 
         <div class="mini-panel">
           <span class="mini-label">Version</span>
-          <strong>Task Dashboard V3</strong>
+          <strong>Task Dashboard V4</strong>
         </div>
       </div>
 
-      <div class="stats-grid">
+      <div class="stats-grid stats-grid-v4">
         <div class="stat-card stat-total">
           <span>Total Tasks</span>
           <strong id="totalCount">0</strong>
@@ -46,10 +49,14 @@
           <span>Completed</span>
           <strong id="completedCount">0</strong>
         </div>
+        <div class="stat-card stat-overdue">
+          <span>Overdue</span>
+          <strong id="overdueCount">0</strong>
+        </div>
       </div>
 
       <div class="input-card">
-        <div class="task-controls">
+        <div class="task-controls task-controls-v4">
           <input
             type="text"
             id="taskInput"
@@ -63,10 +70,18 @@
             <option value="High">High Priority</option>
           </select>
 
+          <input type="date" id="dueDateInput" aria-label="Due date" />
+
+          <select id="recurringSelect" aria-label="Recurring option">
+            <option value="none" selected>No Repeat</option>
+            <option value="daily">Repeat Daily</option>
+            <option value="weekly">Repeat Weekly</option>
+          </select>
+
           <button id="addTaskBtn">Add Task</button>
         </div>
 
-        <div class="toolbar">
+        <div class="toolbar toolbar-v4">
           <input
             type="text"
             id="searchInput"
@@ -78,13 +93,22 @@
             <button class="filter-btn active-filter" data-filter="all">All</button>
             <button class="filter-btn" data-filter="active">Active</button>
             <button class="filter-btn" data-filter="completed">Completed</button>
+            <button class="filter-btn" data-filter="overdue">Overdue</button>
           </div>
         </div>
 
         <p id="helperText" class="helper-text">
-          Add, edit, search, and filter your tasks.
+          Add, edit, search, filter, schedule, and manage recurring tasks.
         </p>
       </div>
+
+      <section class="upcoming-card">
+        <div class="panel-head">
+          <h2>Upcoming Tasks</h2>
+          <span id="upcomingSummary" class="panel-note">No upcoming tasks</span>
+        </div>
+        <ul id="upcomingList" class="upcoming-list"></ul>
+      </section>
 
       <ul id="taskList" class="task-list"></ul>
     </section>

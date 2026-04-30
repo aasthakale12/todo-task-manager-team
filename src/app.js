@@ -1,6 +1,8 @@
 const addTaskBtn = document.getElementById("addTaskBtn");
 const taskInput = document.getElementById("taskInput");
 const prioritySelect = document.getElementById("prioritySelect");
+const dueDateInput = document.getElementById("dueDateInput");
+const recurringSelect = document.getElementById("recurringSelect");
 const searchInput = document.getElementById("searchInput");
 const taskList = document.getElementById("taskList");
 const helperText = document.getElementById("helperText");
@@ -9,195 +11,296 @@ const filterButtons = document.querySelectorAll(".filter-btn");
 const totalCount = document.getElementById("totalCount");
 const activeCount = document.getElementById("activeCount");
 const completedCount = document.getElementById("completedCount");
+const overdueCount = document.getElementById("overdueCount");
+
+const upcomingList = document.getElementById("upcomingList");
+const upcomingSummary = document.getElementById("upcomingSummary");
 
 let currentFilter = "all";
+let tasks = JSON.parse(localStorage.getItem("v4Tasks")) || [];
+
+function saveTasks() {
+  localStorage.setItem("v4Tasks", JSON.stringify(tasks));
+}
+
+function startOfToday() {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return today;
+}
+
+function formatDate(dateString) {
+  if (!dateString) return "No due date";
+  const date = new Date(dateString + "T00:00:00");
+  return date.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric"
+  });
+}
+
+function getStatus(task) {
+  if (task.completed) {
+    return { text: "Completed", className: "completed" };
+  }
+
+  if (!task.dueDate) {
+    return { text: "Active", className: "" };
+  }
+
+  const today = startOfToday();
+  const due = new Date(task.dueDate + "T00:00:00");
+
+  if (due < today) {
+    return { text: "Overdue", className: "overdue" };
+  }
+
+  if (due.getTime() === today.getTime()) {
+    return { text: "Due Today", className: "today" };
+  }
+
+  return { text: "Upcoming", className: "upcoming" };
+}
+
+function getRecurringLabel(recurring) {
+  if (recurring === "daily") return "Repeats Daily";
+  if (recurring === "weekly") return "Repeats Weekly";
+  return "";
+}
 
 function updateCounts() {
-  const tasks = document.querySelectorAll(".task-item");
-  const completedTasks = document.querySelectorAll(".task-item.completed");
-  const activeTasks = tasks.length - completedTasks.length;
+  const total = tasks.length;
+  const completed = tasks.filter(task => task.completed).length;
+  const active = tasks.filter(task => !task.completed).length;
+  const overdue = tasks.filter(task => !task.completed && getStatus(task).text === "Overdue").length;
 
-  totalCount.textContent = tasks.length;
-  activeCount.textContent = activeTasks;
-  completedCount.textContent = completedTasks.length;
+  totalCount.textContent = total;
+  activeCount.textContent = active;
+  completedCount.textContent = completed;
+  overdueCount.textContent = overdue;
 }
 
-function updateEmptyState() {
-  const tasks = document.querySelectorAll(".task-item");
+function renderUpcomingTasks() {
+  upcomingList.innerHTML = "";
 
-  if (tasks.length === 0) {
-    taskList.innerHTML = `
-      <li class="empty-state">
-        No tasks added yet. Start by adding your first task.
-      </li>
+  const upcomingTasks = tasks
+    .filter(task => !task.completed && task.dueDate)
+    .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
+    .slice(0, 5);
+
+  if (upcomingTasks.length === 0) {
+    upcomingSummary.textContent = "No upcoming tasks";
+    upcomingList.innerHTML = `
+      <li class="empty-state">No upcoming scheduled tasks right now.</li>
     `;
+    return;
   }
 
-  updateCounts();
+  upcomingSummary.textContent = `${upcomingTasks.length} task(s) scheduled`;
+
+  upcomingTasks.forEach(task => {
+    const li = document.createElement("li");
+    li.className = "upcoming-item";
+
+    const status = getStatus(task);
+
+    li.innerHTML = `
+      <strong>${escapeHtml(task.text)}</strong>
+      <span>${formatDate(task.dueDate)} • ${task.priority} Priority • ${status.text}</span>
+    `;
+
+    upcomingList.appendChild(li);
+  });
 }
 
-function clearEmptyState() {
-  const emptyState = document.querySelector(".empty-state");
-  if (emptyState) {
-    emptyState.remove();
-  }
+function escapeHtml(text) {
+  const div = document.createElement("div");
+  div.textContent = text;
+  return div.innerHTML;
 }
 
-function applyFilters() {
+function renderTasks() {
+  taskList.innerHTML = "";
+
   const searchValue = searchInput.value.trim().toLowerCase();
-  const tasks = document.querySelectorAll(".task-item");
 
-  tasks.forEach((task) => {
-    const taskText = task.querySelector(".task-text").textContent.toLowerCase();
-    const isCompleted = task.classList.contains("completed");
+  const filteredTasks = tasks.filter(task => {
+    const matchesSearch = task.text.toLowerCase().includes(searchValue);
+    const status = getStatus(task).text;
 
     let matchesFilter = false;
 
     if (currentFilter === "all") {
       matchesFilter = true;
     } else if (currentFilter === "active") {
-      matchesFilter = !isCompleted;
+      matchesFilter = !task.completed;
     } else if (currentFilter === "completed") {
-      matchesFilter = isCompleted;
+      matchesFilter = task.completed;
+    } else if (currentFilter === "overdue") {
+      matchesFilter = status === "Overdue";
     }
 
-    const matchesSearch = taskText.includes(searchValue);
+    return matchesSearch && matchesFilter;
+  });
 
-    if (matchesFilter && matchesSearch) {
-      task.classList.remove("hidden");
-    } else {
-      task.classList.add("hidden");
-    }
+  if (filteredTasks.length === 0) {
+    taskList.innerHTML = `
+      <li class="empty-state">
+        No matching tasks found. Try adding a task or changing the filter.
+      </li>
+    `;
+  } else {
+    filteredTasks.forEach(task => {
+      const li = document.createElement("li");
+      li.className = `task-item priority-${task.priority.toLowerCase()} ${task.completed ? "completed" : ""}`;
+
+      const status = getStatus(task);
+      const recurringLabel = getRecurringLabel(task.recurring);
+
+      li.innerHTML = `
+        <div class="task-left">
+          <span class="task-bullet"></span>
+          <div class="task-content">
+            <div class="task-text">${escapeHtml(task.text)}</div>
+            <div class="task-meta">
+              <span class="priority-badge ${task.priority.toLowerCase()}">${task.priority} Priority</span>
+              <span class="status-badge ${status.className}">${status.text}</span>
+              ${task.dueDate ? `<span class="due-badge">Due: ${formatDate(task.dueDate)}</span>` : ""}
+              ${recurringLabel ? `<span class="recurring-badge">${recurringLabel}</span>` : ""}
+            </div>
+          </div>
+        </div>
+
+        <div class="task-actions">
+          <button class="action-btn edit-btn" data-id="${task.id}">Edit</button>
+          <button class="action-btn complete-btn" data-id="${task.id}">
+            ${task.completed ? "Undo" : "Complete"}
+          </button>
+          <button class="action-btn delete-btn" data-id="${task.id}">Delete</button>
+        </div>
+      `;
+
+      taskList.appendChild(li);
+    });
+  }
+
+  attachTaskEvents();
+  updateCounts();
+  renderUpcomingTasks();
+  saveTasks();
+}
+
+function attachTaskEvents() {
+  document.querySelectorAll(".edit-btn").forEach(button => {
+    button.addEventListener("click", function () {
+      const taskId = Number(this.dataset.id);
+      const task = tasks.find(item => item.id === taskId);
+      if (!task) return;
+
+      const updatedText = prompt("Edit your task:", task.text);
+      if (updatedText === null) return;
+
+      const trimmedText = updatedText.trim();
+      if (trimmedText === "") {
+        helperText.textContent = "Task text cannot be empty.";
+        return;
+      }
+
+      task.text = trimmedText;
+      helperText.textContent = "Task updated successfully.";
+      renderTasks();
+    });
+  });
+
+  document.querySelectorAll(".complete-btn").forEach(button => {
+    button.addEventListener("click", function () {
+      const taskId = Number(this.dataset.id);
+      const task = tasks.find(item => item.id === taskId);
+      if (!task) return;
+
+      const wasCompleted = task.completed;
+      task.completed = !task.completed;
+
+      if (!wasCompleted && task.completed && task.recurring !== "none") {
+        createNextRecurringTask(task);
+        helperText.textContent = "Recurring task completed and next occurrence created.";
+      } else if (task.completed) {
+        helperText.textContent = "Task marked as completed.";
+      } else {
+        helperText.textContent = "Task moved back to active.";
+      }
+
+      renderTasks();
+    });
+  });
+
+  document.querySelectorAll(".delete-btn").forEach(button => {
+    button.addEventListener("click", function () {
+      const taskId = Number(this.dataset.id);
+      tasks = tasks.filter(task => task.id !== taskId);
+      helperText.textContent = "Task deleted successfully.";
+      renderTasks();
+    });
   });
 }
 
-function createTaskElement(taskText, priority) {
-  const li = document.createElement("li");
-  li.classList.add("task-item", `priority-${priority.toLowerCase()}`);
+function createNextRecurringTask(task) {
+  if (!task.dueDate) return;
 
-  const taskLeft = document.createElement("div");
-  taskLeft.classList.add("task-left");
+  const currentDue = new Date(task.dueDate + "T00:00:00");
+  const nextDue = new Date(currentDue);
 
-  const bullet = document.createElement("span");
-  bullet.classList.add("task-bullet");
+  if (task.recurring === "daily") {
+    nextDue.setDate(nextDue.getDate() + 1);
+  } else if (task.recurring === "weekly") {
+    nextDue.setDate(nextDue.getDate() + 7);
+  } else {
+    return;
+  }
 
-  const taskContent = document.createElement("div");
-  taskContent.classList.add("task-content");
+  const nextTask = {
+    id: Date.now() + Math.floor(Math.random() * 1000),
+    text: task.text,
+    priority: task.priority,
+    dueDate: nextDue.toISOString().split("T")[0],
+    recurring: task.recurring,
+    completed: false
+  };
 
-  const textSpan = document.createElement("div");
-  textSpan.classList.add("task-text");
-  textSpan.textContent = taskText;
-
-  const meta = document.createElement("div");
-  meta.classList.add("task-meta");
-
-  const priorityBadge = document.createElement("span");
-  priorityBadge.classList.add("priority-badge", priority.toLowerCase());
-  priorityBadge.textContent = `${priority} Priority`;
-
-  const statusBadge = document.createElement("span");
-  statusBadge.classList.add("status-badge");
-  statusBadge.textContent = "Active";
-
-  meta.appendChild(priorityBadge);
-  meta.appendChild(statusBadge);
-
-  taskContent.appendChild(textSpan);
-  taskContent.appendChild(meta);
-
-  taskLeft.appendChild(bullet);
-  taskLeft.appendChild(taskContent);
-
-  const actions = document.createElement("div");
-  actions.classList.add("task-actions");
-
-  const editBtn = document.createElement("button");
-  editBtn.classList.add("action-btn", "edit-btn");
-  editBtn.textContent = "Edit";
-
-  const completeBtn = document.createElement("button");
-  completeBtn.classList.add("action-btn", "complete-btn");
-  completeBtn.textContent = "Complete";
-
-  const deleteBtn = document.createElement("button");
-  deleteBtn.classList.add("action-btn", "delete-btn");
-  deleteBtn.textContent = "Delete";
-
-  editBtn.addEventListener("click", function () {
-    const updatedText = prompt("Edit your task:", textSpan.textContent);
-
-    if (updatedText === null) {
-      return;
-    }
-
-    const trimmedText = updatedText.trim();
-
-    if (trimmedText === "") {
-      helperText.textContent = "Task text cannot be empty.";
-      return;
-    }
-
-    textSpan.textContent = trimmedText;
-    helperText.textContent = "Task updated successfully.";
-    applyFilters();
-  });
-
-  completeBtn.addEventListener("click", function () {
-    li.classList.toggle("completed");
-
-    if (li.classList.contains("completed")) {
-      completeBtn.textContent = "Undo";
-      statusBadge.textContent = "Completed";
-      helperText.textContent = "Task marked as completed.";
-    } else {
-      completeBtn.textContent = "Complete";
-      statusBadge.textContent = "Active";
-      helperText.textContent = "Task moved back to active.";
-    }
-
-    updateCounts();
-    applyFilters();
-  });
-
-  deleteBtn.addEventListener("click", function () {
-    li.remove();
-    helperText.textContent = "Task deleted successfully.";
-    updateEmptyState();
-    applyFilters();
-  });
-
-  actions.appendChild(editBtn);
-  actions.appendChild(completeBtn);
-  actions.appendChild(deleteBtn);
-
-  li.appendChild(taskLeft);
-  li.appendChild(actions);
-
-  return li;
+  tasks.push(nextTask);
 }
 
 function addTask() {
-  const taskText = taskInput.value.trim();
+  const text = taskInput.value.trim();
   const priority = prioritySelect.value;
+  const dueDate = dueDateInput.value;
+  const recurring = recurringSelect.value;
 
-  if (taskText === "") {
+  if (text === "") {
     helperText.textContent = "Please enter a task before clicking Add Task.";
     taskInput.focus();
     return;
   }
 
-  clearEmptyState();
+  const newTask = {
+    id: Date.now(),
+    text,
+    priority,
+    dueDate,
+    recurring,
+    completed: false
+  };
 
-  const taskElement = createTaskElement(taskText, priority);
-  taskList.appendChild(taskElement);
+  tasks.push(newTask);
 
   helperText.textContent = `${priority} priority task added successfully.`;
   taskInput.value = "";
   prioritySelect.value = "Medium";
+  dueDateInput.value = "";
+  recurringSelect.value = "none";
   taskInput.focus();
 
-  updateCounts();
-  applyFilters();
+  renderTasks();
 }
 
 addTaskBtn.addEventListener("click", addTask);
@@ -208,15 +311,15 @@ taskInput.addEventListener("keypress", function (event) {
   }
 });
 
-searchInput.addEventListener("input", applyFilters);
+searchInput.addEventListener("input", renderTasks);
 
-filterButtons.forEach((button) => {
+filterButtons.forEach(button => {
   button.addEventListener("click", function () {
-    filterButtons.forEach((btn) => btn.classList.remove("active-filter"));
+    filterButtons.forEach(btn => btn.classList.remove("active-filter"));
     this.classList.add("active-filter");
     currentFilter = this.dataset.filter;
-    applyFilters();
+    renderTasks();
   });
 });
 
-updateEmptyState();
+renderTasks();

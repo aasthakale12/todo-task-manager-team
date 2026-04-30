@@ -1,64 +1,66 @@
-# Version 2 Backlog
+# Version 3 Backlog
 
 ## Epic
-Improve the usability and interface of the Smart Task Manager while keeping the core Version 1 functionality.
+Enhance the Smart Task Manager with advanced task handling and productivity-focused features.
 
 ## User Stories
 
-### US-V2-01 Improve Task Layout
-As a user, I want a cleaner task layout so that I can read and manage tasks more easily.
+### US-V3-01 Edit Task
+As a user, I want to edit an existing task so that I can correct mistakes or update task information.
 
 **Priority:** High
 
 **Acceptance Criteria**
-- Task items are displayed in a cleaner structured format
-- Buttons are aligned properly
-- Task text is clearly visible
-- Layout looks more organised than Version 1
+- User can select an edit option on a task
+- User can change the task text
+- Updated task text is saved successfully
+- Changes appear immediately in the task list
+- Empty edited values are not allowed
 
-### US-V2-02 Add Input Validation
-As a user, I want the system to prevent empty tasks so that invalid items are not added to my list.
+### US-V3-02 Search Tasks
+As a user, I want to search for tasks so that I can quickly find a specific task.
 
 **Priority:** High
 
 **Acceptance Criteria**
-- Empty task input cannot be submitted
-- A warning or validation message is shown
-- Only valid tasks are added to the list
+- User can type into a search field
+- Task list updates based on the search text
+- Matching tasks are displayed clearly
+- Search works without page refresh
+- Clearing search restores the full task list
 
-### US-V2-03 Improve Completed Task Styling
-As a user, I want completed tasks to look visually different so that I can quickly identify finished work.
+### US-V3-03 Filter Tasks by Status
+As a user, I want to filter tasks by status so that I can focus on active or completed work.
+
+**Priority:** High
+
+**Acceptance Criteria**
+- User can choose filters such as All, Active, and Completed
+- Task list updates based on selected filter
+- Only matching tasks are shown
+- Filter changes happen immediately
+- User can switch back to All tasks
+
+### US-V3-04 Add and Display Priority
+As a user, I want to assign and view task priority so that I can identify important work quickly.
 
 **Priority:** Medium
 
 **Acceptance Criteria**
-- Completed tasks have a different style from active tasks
-- The style change is clearly visible
-- Users can still read the completed task text
+- User can assign low, medium, or high priority
+- Priority is displayed on each task
+- Priority styling is visually clear
+- Priority remains linked to the correct task
+- Priority information is preserved after editing
 
-### US-V2-04 Add Empty State Message
-As a user, I want to see a helpful message when no tasks exist so that I understand the current state of the app.
-
-**Priority:** Medium
-
-**Acceptance Criteria**
-- A message is displayed when the task list is empty
-- The message disappears when tasks are added
-- The message is easy to understand
-
-### US-V2-05 Make Interface Responsive
-As a user, I want the application to work well on different screen sizes so that I can use it on laptop and mobile devices.
+### US-V3-05 Show Dashboard Statistics
+As a user, I want to see task statistics so that I can understand my progress at a glance.
 
 **Priority:** Medium
 
 **Acceptance Criteria**
-- The layout adjusts on smaller screens
-- Buttons and input fields remain usable
-- Content does not overflow or break on mobile view
-
-## Ordered Backlog
-1. US-V2-01 Improve Task Layout
-2. US-V2-02 Add Input Validation
-3. US-V2-03 Improve Completed Task Styling
-4. US-V2-04 Add Empty State Message
-5. US-V2-05 Make Interface Responsive
+- Dashboard shows total number of tasks
+- Dashboard shows completed tasks
+- Dashboard shows pending tasks
+- Statistics update automatically when tasks change
+- Information is clearly visible on the interface

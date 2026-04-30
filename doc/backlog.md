@@ -1,66 +1,73 @@
-# Version 3 Backlog
+# Version 4 Backlog
 
 ## Epic
-Enhance the Smart Task Manager with advanced task handling and productivity-focused features.
+Extend the Smart Task Manager with productivity-focused features that improve planning, scheduling, and task visibility.
 
 ## User Stories
 
-### US-V3-01 Edit Task
-As a user, I want to edit an existing task so that I can correct mistakes or update task information.
+### US-V4-01 Add Due Dates
+As a user, I want to assign a due date to a task so that I can manage time-sensitive work more effectively.
 
 **Priority:** High
 
 **Acceptance Criteria**
-- User can select an edit option on a task
-- User can change the task text
-- Updated task text is saved successfully
-- Changes appear immediately in the task list
-- Empty edited values are not allowed
+- User can select a due date while creating or editing a task
+- Due date is displayed on the task card
+- Due date remains linked to the correct task
+- Completed tasks retain their due date history
+- Tasks without due dates still work normally
 
-### US-V3-02 Search Tasks
-As a user, I want to search for tasks so that I can quickly find a specific task.
-
-**Priority:** High
-
-**Acceptance Criteria**
-- User can type into a search field
-- Task list updates based on the search text
-- Matching tasks are displayed clearly
-- Search works without page refresh
-- Clearing search restores the full task list
-
-### US-V3-03 Filter Tasks by Status
-As a user, I want to filter tasks by status so that I can focus on active or completed work.
+### US-V4-02 Show Reminder Status
+As a user, I want reminder or due-status indicators so that I know which tasks need urgent attention.
 
 **Priority:** High
 
 **Acceptance Criteria**
-- User can choose filters such as All, Active, and Completed
-- Task list updates based on selected filter
-- Only matching tasks are shown
-- Filter changes happen immediately
-- User can switch back to All tasks
+- Tasks can show statuses such as Upcoming, Due Today, and Overdue
+- Status is based on the current date and task due date
+- Overdue tasks are visually highlighted
+- Completed tasks no longer show active reminder alerts
+- Reminder status updates automatically
 
-### US-V3-04 Add and Display Priority
-As a user, I want to assign and view task priority so that I can identify important work quickly.
+### US-V4-03 Support Recurring Tasks
+As a user, I want to create recurring tasks so that I do not need to manually recreate repeated activities.
+
+**Priority:** High
+
+**Acceptance Criteria**
+- User can select recurrence options such as daily or weekly
+- Recurring tasks are visibly marked
+- When a recurring task is completed, the next occurrence is generated
+- Non-recurring tasks are unaffected
+- Recurrence settings stay linked to the correct task
+
+### US-V4-04 Show Upcoming Tasks Panel
+As a user, I want to see upcoming tasks in one place so that I can plan work in advance.
 
 **Priority:** Medium
 
 **Acceptance Criteria**
-- User can assign low, medium, or high priority
-- Priority is displayed on each task
-- Priority styling is visually clear
-- Priority remains linked to the correct task
-- Priority information is preserved after editing
+- Upcoming panel displays pending tasks with due dates
+- Tasks are shown in nearest-date order
+- Completed tasks are excluded from the upcoming panel
+- Panel updates automatically when dates change
+- Users can still access the full task list separately
 
-### US-V3-05 Show Dashboard Statistics
-As a user, I want to see task statistics so that I can understand my progress at a glance.
+### US-V4-05 Add Productivity Analytics
+As a user, I want to see productivity insights so that I can understand my workload and completion progress.
 
 **Priority:** Medium
 
 **Acceptance Criteria**
-- Dashboard shows total number of tasks
+- Dashboard shows total tasks
 - Dashboard shows completed tasks
 - Dashboard shows pending tasks
+- Dashboard shows overdue tasks
 - Statistics update automatically when tasks change
-- Information is clearly visible on the interface
+
+## Ordered Backlog
+1. US-V4-01 Add Due Dates
+2. US-V4-02 Show Reminder Status
+3. US-V4-03 Support Recurring Tasks
+4. US-V4-04 Show Upcoming Tasks Panel
+5. US-V4-05 Add Productivity Analytics
